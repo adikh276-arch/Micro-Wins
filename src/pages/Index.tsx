@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import IntroScreen from "@/components/micro-wins/IntroScreen";
 import ChooseScreen from "@/components/micro-wins/ChooseScreen";
 import ReflectScreen from "@/components/micro-wins/ReflectScreen";
@@ -20,6 +21,17 @@ const loadEntries = (): MicroWinEntry[] => {
 
 const saveEntries = (entries: MicroWinEntry[]) => {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
+};
+
+const pageVariants = {
+  initial: { opacity: 0, y: 30 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -20 },
+};
+
+const pageTransition = {
+  duration: 0.5,
+  ease: [0.4, 0, 0.2, 1] as [number, number, number, number],
 };
 
 const Index = () => {
@@ -62,39 +74,33 @@ const Index = () => {
   const renderScreen = () => {
     switch (screen) {
       case "intro":
-        return (
-          <IntroScreen
-            onLogWin={() => setScreen("choose")}
-            onViewPast={() => setScreen("history")}
-          />
-        );
+        return <IntroScreen onLogWin={() => setScreen("choose")} onViewPast={() => setScreen("history")} />;
       case "choose":
         return <ChooseScreen onNext={handleChoose} />;
       case "reflect":
         return <ReflectScreen onSave={handleReflect} />;
       case "reinforcement":
-        return (
-          <ReinforcementScreen
-            win={selectedWin}
-            reflection={reflection}
-            onDone={handleSave}
-            onLogAnother={handleLogAnother}
-          />
-        );
+        return <ReinforcementScreen win={selectedWin} reflection={reflection} onDone={handleSave} onLogAnother={handleLogAnother} />;
       case "history":
-        return (
-          <HistoryScreen
-            entries={entries}
-            onLogNew={handleLogAnother}
-            onBack={() => setScreen("intro")}
-          />
-        );
+        return <HistoryScreen entries={entries} onLogNew={handleLogAnother} onBack={() => setScreen("intro")} />;
     }
   };
 
   return (
-    <div className="min-h-screen bg-background max-w-md mx-auto">
-      {renderScreen()}
+    <div className="min-h-screen bg-background max-w-md mx-auto overflow-hidden">
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={screen}
+          variants={pageVariants}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+          transition={pageTransition}
+          className="min-h-screen"
+        >
+          {renderScreen()}
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 };

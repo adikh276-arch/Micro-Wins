@@ -1,20 +1,30 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
 
 const WIN_OPTIONS = [
-  "Resisted a craving",
-  "Took a mindful pause",
-  "Went for a walk",
-  "Drank water instead",
-  "Completed a small task",
-  "Reached out to someone",
-  "Stayed focused on work",
-  "Practiced self-control",
+  { label: "Resisted a craving", emoji: "💪" },
+  { label: "Took a mindful pause", emoji: "🧘" },
+  { label: "Went for a walk", emoji: "🚶" },
+  { label: "Drank water instead", emoji: "💧" },
+  { label: "Completed a small task", emoji: "✅" },
+  { label: "Reached out to someone", emoji: "💬" },
+  { label: "Stayed focused on work", emoji: "🎯" },
+  { label: "Practiced self-control", emoji: "🛡️" },
 ];
 
 interface ChooseScreenProps {
   onNext: (win: string) => void;
 }
+
+const stagger = {
+  animate: { transition: { staggerChildren: 0.06 } },
+};
+
+const fadeUp = {
+  initial: { opacity: 0, y: 12 },
+  animate: { opacity: 1, y: 0, transition: { duration: 0.35 } },
+};
 
 const ChooseScreen: React.FC<ChooseScreenProps> = ({ onNext }) => {
   const [selected, setSelected] = useState<string | null>(null);
@@ -27,62 +37,73 @@ const ChooseScreen: React.FC<ChooseScreenProps> = ({ onNext }) => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen px-5 py-6">
-      <h1 className="text-2xl font-heading mb-3">What small win did you achieve?</h1>
+    <motion.div
+      className="flex flex-col min-h-screen px-5 py-6"
+      variants={stagger}
+      initial="initial"
+      animate="animate"
+    >
+      <motion.h1 variants={fadeUp} className="text-2xl font-heading mb-3">
+        What did you crush today? 🏆
+      </motion.h1>
 
       <div className="space-y-3 mb-4">
-        <p className="text-justified text-foreground leading-relaxed">
-          Select anything that feels like a positive step today.
-        </p>
-        <p className="text-justified text-foreground leading-relaxed">
-          Even small actions deserve recognition.
-        </p>
+        <motion.p variants={fadeUp} className="text-justified text-foreground leading-relaxed">
+          Pick something awesome you did — no win is too small!
+        </motion.p>
+        <motion.p variants={fadeUp} className="text-justified text-foreground leading-relaxed">
+          You showed up and that already deserved a round of applause. 👏
+        </motion.p>
       </div>
 
-      <div className="flex-1 space-y-2">
+      <motion.div className="flex-1 space-y-2" variants={stagger}>
         {WIN_OPTIONS.map((option) => (
-          <button
-            key={option}
-            onClick={() => { setSelected(option); setShowCustom(false); }}
-            className={`w-full text-left px-4 py-3 rounded-full border transition-all btn-press text-sm font-body
-              ${selected === option && !showCustom
+          <motion.button
+            key={option.label}
+            variants={fadeUp}
+            whileTap={{ scale: 0.97 }}
+            onClick={() => { setSelected(option.label); setShowCustom(false); }}
+            className={`w-full text-left px-4 py-3 rounded-full border transition-all text-sm font-body
+              ${selected === option.label && !showCustom
                 ? "bg-secondary border-primary text-foreground shadow-sm"
                 : "bg-card border-primary/30 text-foreground hover:border-primary/60"
               }`}
           >
-            {option}
-          </button>
+            {option.emoji} {option.label}
+          </motion.button>
         ))}
 
-        {!showCustom ? (
-          <button
-            onClick={() => { setShowCustom(true); setSelected(null); }}
-            className="w-full text-left px-4 py-3 rounded-full border border-dashed border-primary/40 text-muted-foreground text-sm font-body hover:border-primary/60 transition-all"
-          >
-            + Add my own win
-          </button>
-        ) : (
-          <input
-            autoFocus
-            value={customWin}
-            onChange={(e) => setCustomWin(e.target.value)}
-            placeholder="Type your win..."
-            className="w-full px-4 py-3 rounded-full border border-primary bg-card text-foreground text-sm font-body focus:outline-none focus:ring-2 focus:ring-ring"
-          />
-        )}
-      </div>
+        <motion.div variants={fadeUp}>
+          {!showCustom ? (
+            <button
+              onClick={() => { setShowCustom(true); setSelected(null); }}
+              className="w-full text-left px-4 py-3 rounded-full border border-dashed border-primary/40 text-muted-foreground text-sm font-body hover:border-primary/60 transition-all"
+            >
+              ✏️ Add my own win
+            </button>
+          ) : (
+            <input
+              autoFocus
+              value={customWin}
+              onChange={(e) => setCustomWin(e.target.value)}
+              placeholder="Type your awesome win..."
+              className="w-full px-4 py-3 rounded-full border border-primary bg-card text-foreground text-sm font-body focus:outline-none focus:ring-2 focus:ring-ring"
+            />
+          )}
+        </motion.div>
+      </motion.div>
 
-      <div className="pb-6 mt-6">
+      <motion.div variants={fadeUp} className="pb-6 mt-6">
         <Button
           size="lg"
           className="w-full"
           onClick={handleNext}
           disabled={!selected && (!showCustom || !customWin.trim())}
         >
-          Next
+          Next →
         </Button>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 

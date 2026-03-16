@@ -5,6 +5,8 @@ import ChooseScreen from "@/components/micro-wins/ChooseScreen";
 import ReflectScreen from "@/components/micro-wins/ReflectScreen";
 import ReinforcementScreen from "@/components/micro-wins/ReinforcementScreen";
 import HistoryScreen, { type MicroWinEntry } from "@/components/micro-wins/HistoryScreen";
+import { LanguageSelector } from "@/components/LanguageSelector";
+
 
 type Screen = "intro" | "choose" | "reflect" | "reinforcement" | "history";
 
@@ -87,7 +89,8 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background max-w-md mx-auto overflow-hidden">
+    <div className="min-h-screen bg-background max-w-md mx-auto overflow-hidden relative">
+      <LanguageSelector />
       <AnimatePresence mode="wait">
         <motion.div
           key={screen}

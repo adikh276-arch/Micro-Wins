@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { format, isToday, isYesterday } from "date-fns";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 export interface MicroWinEntry {
   id: string;
@@ -34,6 +35,7 @@ const stagger = {
 };
 
 const HistoryScreen: React.FC<HistoryScreenProps> = ({ entries, onLogNew, onBack }) => {
+  const { t } = useTranslation();
   const thisWeekCount = entries.filter((e) => {
     const d = new Date(e.date);
     const now = new Date();
@@ -50,19 +52,19 @@ const HistoryScreen: React.FC<HistoryScreenProps> = ({ entries, onLogNew, onBack
     >
       <button onClick={onBack} className="flex items-center gap-1 text-muted-foreground mb-4 w-fit">
         <ArrowLeft className="w-5 h-5" />
-        <span className="text-sm font-body">Back</span>
+        <span className="text-sm font-body">{t('hist_back')}</span>
       </button>
 
       <motion.h1 variants={fadeUp} className="text-2xl font-heading mb-3">
-        Your Wins Collection 🏆
+        {t('hist_title')}
       </motion.h1>
 
       <div className="space-y-3 mb-6">
         <motion.p variants={fadeUp} className="text-justified text-foreground leading-relaxed">
-          Look at all the awesome things you accomplished! Every single one of these mattered.
+          {t('hist_p1')}
         </motion.p>
         <motion.p variants={fadeUp} className="text-justified text-foreground leading-relaxed">
-          Each entry here proved you were building stronger, healthier habits. Keep it up! 💛
+          {t('hist_p2')}
         </motion.p>
       </div>
 
@@ -70,8 +72,8 @@ const HistoryScreen: React.FC<HistoryScreenProps> = ({ entries, onLogNew, onBack
         {entries.length === 0 ? (
           <motion.div variants={fadeUp} className="text-center py-12 text-muted-foreground">
             <p className="text-3xl mb-2">🌱</p>
-            <p>No wins recorded yet — let's change that!</p>
-            <p className="text-sm mt-1">Your first win is waiting to be captured.</p>
+            <p>{t('hist_empty_p1')}</p>
+            <p className="text-sm mt-1">{t('hist_empty_p2')}</p>
           </motion.div>
         ) : (
           entries.map((entry) => (
@@ -94,13 +96,13 @@ const HistoryScreen: React.FC<HistoryScreenProps> = ({ entries, onLogNew, onBack
 
       {thisWeekCount > 0 && (
         <motion.p variants={fadeUp} className="text-center text-sm text-muted-foreground mt-4">
-          🔥 You logged {thisWeekCount} micro win{thisWeekCount !== 1 ? "s" : ""} this week — amazing!
+          {t('hist_this_week', { count: thisWeekCount })}
         </motion.p>
       )}
 
       <motion.div variants={fadeUp} className="pb-6 mt-4">
         <Button size="lg" className="w-full" onClick={onLogNew}>
-          Log New Win 🎯
+          {t('hist_log_new')}
         </Button>
       </motion.div>
     </motion.div>

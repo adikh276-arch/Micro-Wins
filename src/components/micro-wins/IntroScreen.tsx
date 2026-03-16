@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import SparkleDecoration from "@/components/SparkleDecoration";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 interface IntroScreenProps {
   onLogWin: () => void;
@@ -19,6 +20,7 @@ const fadeUp = {
 };
 
 const IntroScreen: React.FC<IntroScreenProps> = ({ onLogWin, onViewPast }) => {
+  const { t } = useTranslation();
   return (
     <motion.div
       className="flex flex-col min-h-screen px-5 py-6"
@@ -26,13 +28,13 @@ const IntroScreen: React.FC<IntroScreenProps> = ({ onLogWin, onViewPast }) => {
       initial="initial"
       animate="animate"
     >
-      <button className="flex items-center gap-1 text-muted-foreground mb-4 w-fit">
+      <button className="flex items-center gap-1 text-muted-foreground mb-4 w-fit" onClick={onViewPast}>
         <ArrowLeft className="w-5 h-5" />
-        <span className="text-sm font-body">Back</span>
+        <span className="text-sm font-body">{t('intro_back')}</span>
       </button>
 
       <motion.h1 variants={fadeUp} className="text-2xl font-heading mb-2">
-        Micro Wins ✨
+        {t('intro_title')}
       </motion.h1>
 
       <motion.div variants={fadeUp}>
@@ -41,22 +43,22 @@ const IntroScreen: React.FC<IntroScreenProps> = ({ onLogWin, onViewPast }) => {
 
       <div className="flex-1 space-y-4 mt-4">
         <motion.p variants={fadeUp} className="text-justified text-foreground leading-relaxed">
-          You already took steps forward today — even if they felt tiny.
+          {t('intro_p1')}
         </motion.p>
         <motion.p variants={fadeUp} className="text-justified text-foreground leading-relaxed">
-          Every healthy choice you made, every urge you resisted, and every positive action you took absolutely counted. 💪
+          {t('intro_p2')}
         </motion.p>
         <motion.p variants={fadeUp} className="text-justified text-foreground leading-relaxed">
-          Let's capture those small victories so you can look back and see just how far you've come!
+          {t('intro_p3')}
         </motion.p>
       </div>
 
       <motion.div variants={fadeUp} className="space-y-3 pb-6 mt-8">
         <Button size="lg" className="w-full" onClick={onLogWin}>
-          Log a Win 🎯
+          {t('intro_btn_log')}
         </Button>
         <Button size="lg" variant="secondary" className="w-full" onClick={onViewPast}>
-          View Past Wins 📖
+          {t('intro_btn_past')}
         </Button>
       </motion.div>
     </motion.div>

@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 interface ReinforcementScreenProps {
   win: string;
@@ -50,6 +51,7 @@ const ReinforcementScreen: React.FC<ReinforcementScreenProps> = ({
   onDone,
   onLogAnother,
 }) => {
+  const { t } = useTranslation();
   return (
     <motion.div
       className="flex flex-col min-h-screen px-5 py-6"
@@ -63,27 +65,27 @@ const ReinforcementScreen: React.FC<ReinforcementScreenProps> = ({
         transition={{ duration: 0.6, ease: "easeOut" }}
       >
         <CelebrationSparkles />
-        <h1 className="text-2xl font-heading mb-3 text-center">You nailed it! 🌸🎉</h1>
+        <h1 className="text-2xl font-heading mb-3 text-center">{t('reinf_title')}</h1>
       </motion.div>
 
       <div className="space-y-3 mb-6">
         <motion.p variants={fadeUp} className="text-justified text-foreground leading-relaxed">
-          You just locked in a micro win — that's huge!
+          {t('reinf_p1')}
         </motion.p>
         <motion.p variants={fadeUp} className="text-justified text-foreground leading-relaxed">
-          Every small victory you collected built your confidence and kept the momentum going. 🚀
+          {t('reinf_p2')}
         </motion.p>
         <motion.p variants={fadeUp} className="text-justified text-foreground leading-relaxed">
-          These little steps? They added up to something powerful.
+          {t('reinf_p3')}
         </motion.p>
       </div>
 
       <motion.div variants={fadeUp} className="bg-card rounded-xl p-4 shadow-sm border border-border mb-4">
-        <p className="text-sm text-muted-foreground mb-1">🏅 Win Logged</p>
+        <p className="text-sm text-muted-foreground mb-1">{t('reinf_log_title')}</p>
         <p className="font-heading font-bold text-foreground">{win}</p>
         {reflection && (
           <>
-            <p className="text-sm text-muted-foreground mt-3 mb-1">💭 Reflection</p>
+            <p className="text-sm text-muted-foreground mt-3 mb-1">{t('reinf_refl_title')}</p>
             <p className="text-sm text-foreground italic">"{reflection}"</p>
           </>
         )}
@@ -93,10 +95,10 @@ const ReinforcementScreen: React.FC<ReinforcementScreenProps> = ({
 
       <motion.div variants={fadeUp} className="space-y-3 pb-6">
         <Button size="lg" className="w-full" onClick={onDone}>
-          Save Entry ✅
+          {t('reinf_save')}
         </Button>
         <Button size="lg" variant="secondary" className="w-full" onClick={onLogAnother}>
-          Log Another Win 🔥
+          {t('reinf_log_another')}
         </Button>
       </motion.div>
     </motion.div>

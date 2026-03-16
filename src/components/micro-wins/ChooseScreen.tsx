@@ -1,17 +1,9 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
-const WIN_OPTIONS = [
-  { label: "Resisted a craving", emoji: "💪" },
-  { label: "Took a mindful pause", emoji: "🧘" },
-  { label: "Went for a walk", emoji: "🚶" },
-  { label: "Drank water instead", emoji: "💧" },
-  { label: "Completed a small task", emoji: "✅" },
-  { label: "Reached out to someone", emoji: "💬" },
-  { label: "Stayed focused on work", emoji: "🎯" },
-  { label: "Practiced self-control", emoji: "🛡️" },
-];
+
 
 interface ChooseScreenProps {
   onNext: (win: string) => void;
@@ -27,6 +19,18 @@ const fadeUp = {
 };
 
 const ChooseScreen: React.FC<ChooseScreenProps> = ({ onNext }) => {
+  const { t } = useTranslation();
+  const WIN_OPTIONS = [
+    { label: t("choose_opt_1"), emoji: "💪" },
+    { label: t("choose_opt_2"), emoji: "🧘" },
+    { label: t("choose_opt_3"), emoji: "🚶" },
+    { label: t("choose_opt_4"), emoji: "💧" },
+    { label: t("choose_opt_5"), emoji: "✅" },
+    { label: t("choose_opt_6"), emoji: "💬" },
+    { label: t("choose_opt_7"), emoji: "🎯" },
+    { label: t("choose_opt_8"), emoji: "🛡️" },
+  ];
+
   const [selected, setSelected] = useState<string | null>(null);
   const [customWin, setCustomWin] = useState("");
   const [showCustom, setShowCustom] = useState(false);
@@ -44,15 +48,15 @@ const ChooseScreen: React.FC<ChooseScreenProps> = ({ onNext }) => {
       animate="animate"
     >
       <motion.h1 variants={fadeUp} className="text-2xl font-heading mb-3">
-        What did you crush today? 🏆
+        {t('choose_title')}
       </motion.h1>
 
       <div className="space-y-3 mb-4">
         <motion.p variants={fadeUp} className="text-justified text-foreground leading-relaxed">
-          Pick something awesome you did — no win is too small!
+          {t('choose_p1')}
         </motion.p>
         <motion.p variants={fadeUp} className="text-justified text-foreground leading-relaxed">
-          You showed up and that already deserved a round of applause. 👏
+          {t('choose_p2')}
         </motion.p>
       </div>
 
@@ -79,14 +83,14 @@ const ChooseScreen: React.FC<ChooseScreenProps> = ({ onNext }) => {
               onClick={() => { setShowCustom(true); setSelected(null); }}
               className="w-full text-left px-4 py-3 rounded-full border border-dashed border-primary/40 text-muted-foreground text-sm font-body hover:border-primary/60 transition-all"
             >
-              ✏️ Add my own win
+              {t('choose_add_own')}
             </button>
           ) : (
             <input
               autoFocus
               value={customWin}
               onChange={(e) => setCustomWin(e.target.value)}
-              placeholder="Type your awesome win..."
+              placeholder={t('choose_custom_placeholder')}
               className="w-full px-4 py-3 rounded-full border border-primary bg-card text-foreground text-sm font-body focus:outline-none focus:ring-2 focus:ring-ring"
             />
           )}
@@ -100,7 +104,7 @@ const ChooseScreen: React.FC<ChooseScreenProps> = ({ onNext }) => {
           onClick={handleNext}
           disabled={!selected && (!showCustom || !customWin.trim())}
         >
-          Next →
+          {t('choose_next')}
         </Button>
       </motion.div>
     </motion.div>

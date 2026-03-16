@@ -16,7 +16,8 @@ const loadEntries = async (): Promise<MicroWinEntry[]> => {
   try {
     const userId = sessionStorage.getItem("user_id");
     if (!userId) return [];
-    const response = await fetch(`/api/wins?user_id=${userId}`);
+    const apiUrl = window.location.hostname === 'localhost' ? 'http://localhost:3001' : '';
+    const response = await fetch(`${apiUrl}/api/wins?user_id=${userId}`);
     if (response.ok) {
       return await response.json();
     }
@@ -28,7 +29,8 @@ const saveEntryToDB = async (entry: MicroWinEntry) => {
   const userId = sessionStorage.getItem("user_id");
   if (!userId) return;
   
-  await fetch("/api/wins", {
+  const apiUrl = window.location.hostname === 'localhost' ? 'http://localhost:3001' : '';
+  await fetch(`${apiUrl}/api/wins`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ ...entry, user_id: userId })

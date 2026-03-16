@@ -35,7 +35,8 @@ export const AuthGuard: React.FC<{ children: React.ReactNode }> = ({ children })
           sessionStorage.setItem("user_id", data.user_id);
           window.history.replaceState({}, "", window.location.pathname);
           
-          await fetch("/api/users", {
+          const apiUrl = window.location.hostname === 'localhost' ? 'http://localhost:3001' : '';
+          await fetch(`${apiUrl}/api/users`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ user_id: data.user_id })

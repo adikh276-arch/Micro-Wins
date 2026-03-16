@@ -95,7 +95,7 @@ const ReinforcementScreen: React.FC<ReinforcementScreenProps> = ({
 
       <motion.div variants={fadeUp} className="space-y-3 pb-6">
         <Button size="lg" className="w-full" onClick={onDone}>
-          {t('reinf_save')}
+          Return Home 🏠
         </Button>
         <Button size="lg" variant="secondary" className="w-full" onClick={onLogAnother}>
           {t('reinf_log_another')}
